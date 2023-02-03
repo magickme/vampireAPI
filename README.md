@@ -3,7 +3,7 @@ Simple CRUD API for managing a local Postgres database of vampires from the game
 
 ## Technologies Used
 
-Node/Express.js
-Body-parser
-pg
-Postgres
++ Node/Express.js
++ Body-parser
++ pg
++ Postgres
