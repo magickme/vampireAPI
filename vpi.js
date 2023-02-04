@@ -24,7 +24,6 @@ const connectDb = async () => {
       port: process.env.DB_PORT
     })
     await pool.connect()
-    await pool.end()
   } catch (error) {
     console.log(error)
   }
@@ -74,4 +73,7 @@ app.delete('/vpi/delete/:name', (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`Vampire Prestation Interface (SchreckNET) listening on port ${port}!`));
+app.listen(port, () => {
+  connectDb;
+  console.log(`Vampire Prestation Interface (SchreckNET) listening on port ${port}!`);
+});
