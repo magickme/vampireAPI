@@ -1,3 +1,5 @@
+// Attempt at now wrapping the pg call in an Express server with endpoints
+
 const { Client, Pool } = require("pg")
 const dotenv = require("dotenv")
 dotenv.config()
@@ -21,18 +23,14 @@ const connectDb = async () => {
       password: process.env.DB_PASSWORD,
       port: process.env.DB_PORT
     })
-
     await pool.connect()
-    const res = await pool.query('SELECT * FROM north_america_kindred WHERE clan = \'Tremere\' LIMIT 10')
-    console.log(res)
     await pool.end()
   } catch (error) {
     console.log(error)
   }
 }
-connectDb()
 
-app.post('/api/resource', (req, res) => {
+app.post('/vpi/write', (req, res) => {
   const data = req.body;
   const queryString = `INSERT INTO north_america_kindred (name, clan, sect, title, gen, sire, secrets, city, state, orig_city, orig_state, orig_country, source, embrace) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
   const values = [data.clan, data.name, data.city];
@@ -44,7 +42,7 @@ app.post('/api/resource', (req, res) => {
   });
 });
 
-app.get('/api/resource', (req, res) => {
+app.get('/vpi/read', (req, res) => {
   pool.query('SELECT * FROM north_america_kindred LIMIT 10', (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -53,10 +51,10 @@ app.get('/api/resource', (req, res) => {
   });
 });
 
-app.put('/api/resource/:id', (req, res) => {
+app.put('/vpi/update/:name', (req, res) => {
   const data = req.body;
-  const queryString = `UPDATE north_america_kindred SET clan = $1, name = $2, city = $3 WHERE name = $4`;
-  const values = [data.clan, data.name, data.city, req.params.id];
+  const queryString = `UPDATE north_america_kindred SET (name = $1, clan = $2, sect = $3, title = $4, gen = $5, sire = $6, secrets = $7, city = $8, state = $9, orig_city = $10, orig_state = $11, orig_country = $12, source = $13, embrace = $14) WHERE name = $1`;
+  const values = [data.clan, data.sect, data.title, data.gen, data.sire, data.secrets, data.city, data.state, data.orig_city, data.orig_country, data.source, data.embrace, req.params.name];
   pool.query(queryString, values, (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -65,9 +63,9 @@ app.put('/api/resource/:id', (req, res) => {
   });
 });
 
-app.delete('/api/resource/:id', (req, res) => {
+app.delete('/vpi/delete/:name', (req, res) => {
   const queryString = `DELETE FROM north_america_kindred WHERE name = $1`;
-  const values = [req.params.id];
+  const values = [req.params.name];
   pool.query(queryString, values, (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -75,3 +73,5 @@ app.delete('/api/resource/:id', (req, res) => {
     res.status(200).json(result);
   });
 });
+
+app.listen(port, () => console.log(`Vampire Prestation Interface (SchreckNET) listening on port ${port}!`));
