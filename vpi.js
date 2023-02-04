@@ -55,7 +55,7 @@ app.get('/vpi/read', (req, res) => {
   });
 });
 
-// Read speicific Kindred by name
+// Read specific Kindred by name
 
 app.get('/vpi/read/:name', (req, res) => {
   const queryString = `SELECT * FROM north_america_kindred WHERE name = $1`;
@@ -67,8 +67,6 @@ app.get('/vpi/read/:name', (req, res) => {
     res.status(200).json(result.rows);
   });
 });
-
-// Update a Kindred
 
 // Update a Kindred
 
