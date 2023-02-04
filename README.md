@@ -12,4 +12,5 @@ All endpoints currently work, except the PUT request.
 + Node/Express.js
 + Body-parser
 + pg
++ cors
 + Postgres
