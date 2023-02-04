@@ -55,7 +55,7 @@ app.get('/api/resource', (req, res) => {
 
 app.put('/api/resource/:id', (req, res) => {
   const data = req.body;
-  const queryString = `UPDATE north_america_kindred SET clan = $1, name = $2, city = $3 WHERE name = $4`;
+  const queryString = `UPDATE north_america_kindred SET (name = $1, clan = $2, sect = $3, title = $4, gen = $5, sire = $6, secrets = $7, city = $8, state = $9, orig_city = $10, orig_state = $11, orig_country = $12, source = $13, embrace = $14) WHERE name = $1`;
   const values = [data.clan, data.name, data.city, req.params.id];
   pool.query(queryString, values, (err, result) => {
     if (err) {
