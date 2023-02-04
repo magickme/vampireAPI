@@ -1,10 +1,10 @@
-const { Client } = require("pg");
-const dotenv = require("dotenv");
-dotenv.config();
+const { Client, Pool } = require("pg")
+const dotenv = require("dotenv")
+dotenv.config()
 
 const connectDb = async () => {
   try {
-    const client = new Client({
+    const pool = new Pool({
       user: process.env.DB_USERNAME,
       host: process.env.DB_HOST,
       database: process.env.DB_DATABASE,
@@ -12,10 +12,10 @@ const connectDb = async () => {
       port: process.env.DB_PORT
     })
 
-    await client.connect()
-    const res = await client.query('SELECT * FROM north_america_kindred WHERE clan = \'Tremere\' LIMIT 10')
+    await pool.connect()
+    const res = await pool.query('SELECT * FROM north_america_kindred WHERE clan = \'Tremere\' LIMIT 10')
     console.log(res)
-    await client.end()
+    await pool.end()
   } catch (error) {
     console.log(error)
   }
