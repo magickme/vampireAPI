@@ -15,11 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const pool = new Pool({
-  user: process.env.DB_USERNAME,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT
+  user: process.env.DB_USERNAME || "postgres",
+  host: process.env.DB_HOST || "34.29.110.166",
+  database: process.env.DB_DATABASE || "postgres",
+  password: process.env.DB_PASSWORD || "chaos23",
+  port: process.env.DB_PORT || "5432"
 })
 
 const connectDb = async () => {
@@ -29,6 +29,12 @@ const connectDb = async () => {
     console.log(error)
   }
 }
+
+// Signal that API is operational
+
+app.get('/', (req, res) => {
+  res.send('Vampire Prestation Interface up and running!');
+});
 
 // Create new Kindred
 
