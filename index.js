@@ -15,11 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const pool = new Pool({
-  user: process.env.DB_USERNAME,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT
+  user: 'postgres',
+  host: '/cloudsql/ultraculture-cloud:us-central1:schreck-net',
+  database: 'postgres',
+  password: 'chaos23',
+  port: 5432
 })
 
 const connectDb = async () => {
@@ -29,6 +29,12 @@ const connectDb = async () => {
     console.log(error)
   }
 }
+
+// Signal that API is operational
+
+app.get('/', (req, res) => {
+  res.send('Vampire Prestation Interface up and running!');
+});
 
 // Create new Kindred
 
