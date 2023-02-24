@@ -9,17 +9,17 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const app = express()
-const port = 8080
+const port = process.env.PORT || 8080
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const pool = new Pool({
-  user: process.env.DB_USERNAME || "postgres",
-  host: process.env.DB_HOST || "34.29.110.166",
-  database: process.env.DB_DATABASE || "postgres",
-  password: process.env.DB_PASSWORD || "chaos23",
-  port: process.env.DB_PORT || "5432"
+  user: 'postgres',
+  host: '/cloudsql/ultraculture-cloud:us-central1:schreck-net',
+  database: 'postgres',
+  password: 'chaos23',
+  port: 5432
 })
 
 const connectDb = async () => {

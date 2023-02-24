@@ -1,5 +1,5 @@
-runtime: nodejs16
-service: vpi
+runtime: nodejs18
+service: vpi3
 env: standard
 instance_class: F1
 automatic_scaling:
