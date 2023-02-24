@@ -9,7 +9,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const app = express()
-const port = 3000
+const port = 8080
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -34,7 +34,7 @@ const connectDb = async () => {
 
 app.post('/vpi/write', (req, res) => {
   const data = req.body;
-  const queryString = `INSERT INTO north_america_kindred (name, clan, sect, title, gen, sire, secrets, city, state, orig_city, orig_state, orig_country, source, embrace) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
+  const queryString = `INSERT INTO schrecknet (name, clan, sect, title, gen, sire, secrets, city, state, orig_city, orig_state, orig_country, source, embrace) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
   const values = [data.name, data.clan, data.sect, data.title, data.gen, data.sire, data.secrets, data.city, data.state, data.orig_city, data.orig_state, data.orig_country, data.source, data.embrace];
   pool.query(queryString, values, (err, result) => {
     if (err) {
@@ -47,7 +47,7 @@ app.post('/vpi/write', (req, res) => {
 // Read all Kindred
 
 app.get('/vpi/read', (req, res) => {
-  pool.query('SELECT * FROM north_america_kindred', (err, result) => {
+  pool.query('SELECT * FROM schrecknet', (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });
     }
@@ -58,7 +58,7 @@ app.get('/vpi/read', (req, res) => {
 // Read specific Kindred by name
 
 app.get('/vpi/read/:name', (req, res) => {
-  const queryString = `SELECT * FROM north_america_kindred WHERE name = $1`;
+  const queryString = `SELECT * FROM schrecknet WHERE name = $1`;
   const values = [req.params.name];
   pool.query(queryString, values, (err, result) => {
     if (err) {
@@ -72,7 +72,7 @@ app.get('/vpi/read/:name', (req, res) => {
 
 app.put('/vpi/update/:name', (req, res) => {
   const data = req.body;
-  const queryString = `UPDATE north_america_kindred SET name = $1, clan = $2, sect = $3, title = $4, gen = $5, sire = $6, secrets = $7, city = $8, state = $9, orig_city = $10, orig_state = $11, orig_country = $12, source = $13, embrace = $14 WHERE name = $1`;
+  const queryString = `UPDATE schrecknet SET name = $1, clan = $2, sect = $3, title = $4, gen = $5, sire = $6, secrets = $7, city = $8, state = $9, orig_city = $10, orig_state = $11, orig_country = $12, source = $13, embrace = $14 WHERE name = $1`;
   const values = [data.name, data.clan, data.sect, data.title, data.gen, data.sire, data.secrets, data.city, data.state, data.orig_city, data.orig_country, data.source, data.embrace, req.params.name];
   pool.query(queryString, values, (err, result) => {
     if (err) {
@@ -85,7 +85,7 @@ app.put('/vpi/update/:name', (req, res) => {
 // Delete a Kindred
 
 app.delete('/vpi/delete/:name', (req, res) => {
-  const queryString = `DELETE FROM north_america_kindred WHERE name = $1`;
+  const queryString = `DELETE FROM schrecknet WHERE name = $1`;
   const values = [req.params.name];
   pool.query(queryString, values, (err, result) => {
     if (err) {
