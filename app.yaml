@@ -1,9 +1,4 @@
-runtime: nodejs16
-service: vpi
+runtime: nodejs18
+service: vpi2
 env: standard
 instance_class: F1
-automatic_scaling:
-  min_idle_instances: 1
-  max_idle_instances: automatic
-  min_pending_latency: automatic
-  max_pending_latency: automatic
