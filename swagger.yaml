@@ -1,0 +1,118 @@
+openapi: 3.0.1
+info:
+  title: Vampire Prestation Interface
+  version: 1.0.1
+  description: "API for maintaining a database of vampires from Vampire the Masquerade."
+  termsOfService: "https://www.magick.me/p/terms"
+  contact:
+    email: "jason@ultraculture.org"
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: /vpi
+tags:
+  - name: wiki
+    description: World of Darkness Wiki
+    externalDocs:
+      description: Get Info
+      url: "https://whitewolf.fandom.com/wiki/Main_Page"
+  - name: books
+    description: Vampire the Masquerade Book List
+    externalDocs:
+      description: Wikipedia
+      url: "https://en.wikipedia.org/wiki/List_of_Vampire:_The_Masquerade_books"
+schemes:
+  - http
+paths:
+  /read:
+    summary: Show All Vampires
+    description: Retrieves entire database of vampires in JSON format
+    get:
+      summary: Show All Vampires
+      description: Retrieves entire database of vampires in JSON format
+      operationId: show_vampires
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Show Vampires
+  /read/:name:
+    summary: Show A Vampire
+    description: Returns a single vampire by name (not sure how to do spaces in names)
+    get:
+      summary: Show A Vampire
+      description: Returns a single vampire by name (not sure how to do spaces in names).
+      operationId: show_vampire
+      parameters: 
+        - name: name
+          in: path
+          description: 'Name of vampire'
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Show Vampire
+  /write:
+    summary: Create a Vampire
+    description: Creates a new vampire. Requires data in raw JSON
+    post:
+      summary: Create a Vampire
+      description: Creates a new vampire. Requires data in raw JSON
+      operationId: create_vampire
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Create Vampire
+  /update/:name:
+    summary: Update A Vampire
+    description: Updates a single vampire by name (not currently working). Requires data in raw JSON
+    put:
+      summary: Update a Vampire
+      description: "Updates a single vampire by name (not currently working). Requires data in raw JSON"
+      parameters: 
+        - name: name
+          in: path
+          description: 'Name of vampire'
+          required: true
+          schema:
+            type: string
+      operationId: update_vampire
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Show Vampire
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Update Vampire
+
+  /delete/:name:
+    summary: Delete a Vampire
+    description: Deletes a vampire by name.
+    delete:
+      summary: Delete a Vampire
+      description: Deletes a vampire.
+      operationId: delete_vampire
+      parameters: 
+        - name: name
+          in: path
+          description: 'Name of vampire'
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Show Vampire
+      responses:
+        default:
+          description: Default error sample response
+        tags:
+          - Delete Vampire
